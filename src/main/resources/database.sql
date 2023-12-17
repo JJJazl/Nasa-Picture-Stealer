@@ -19,9 +19,4 @@ CREATE TABLE pictures(
     CONSTRAINT pictures_cameras_fk FOREIGN KEY(camera_id) REFERENCES cameras(id)
 );
 
--- CREATE SEQUENCE cameras_id_seq;
--- CREATE SEQUENCE pictures_id_seq;
--- ALTER SEQUENCE cameras_id_seq OWNED BY cameras.id;
--- ALTER SEQUENCE pictures_id_seq OWNED BY pictures.id;
-
 CREATE INDEX pictures_camera_id_idx ON pictures(camera_id);

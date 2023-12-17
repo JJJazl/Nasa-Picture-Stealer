@@ -45,18 +45,22 @@ public class NasaPictureService {
     private String nasaApiKey;
 
     @Transactional
-    public void stealPictures(StealNasaPicturesRequestInfoDto stealNasaPicturesRequestInfoDto) {
+    public void stealPictures(StealNasaPicturesRequestInfoDto nasaPictureRequest) {
         try {
-            String url = buildUrl(stealNasaPicturesRequestInfoDto);
+            log.info(String.format("Start processing NASA pictures for sol: %s", nasaPictureRequest.sol()));
+
+            String url = buildUrl(nasaPictureRequest);
             NasaResponseDto nasaResponseDto = restTemplate.getForObject(url, NasaResponseDto.class);
 
             nasaResponseDto.getNasaPictureDtos()
                     .stream()
                     .forEach(this::savePicture);
             camerasCache.clear();
+
+            log.info(String.format("NASA pictures for sol '%s' has been successfully stolen!", nasaPictureRequest.sol()));
         } catch (Exception e) {
-            log.error(String.format("Error saving pictures from NASA for sol: %s", stealNasaPicturesRequestInfoDto.sol()), e);
-            throw new PictureStealingException(String.format("Error saving pictures from NASA for sol: %s", stealNasaPicturesRequestInfoDto.sol()));
+            log.error(String.format("Error saving pictures from NASA for sol: %s", nasaPictureRequest.sol()), e);
+            throw new PictureStealingException(String.format("Error saving pictures from NASA for sol: %s", nasaPictureRequest.sol()));
         }
     }
 
