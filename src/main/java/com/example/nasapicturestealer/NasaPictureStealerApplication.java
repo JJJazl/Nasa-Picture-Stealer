@@ -1,4 +1,4 @@
-package com.example.hw18nasapicturestealer;
+package com.example.nasapicturestealer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
